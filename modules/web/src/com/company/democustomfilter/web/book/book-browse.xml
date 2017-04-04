@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<window xmlns="http://schemas.haulmont.com/cuba/window.xsd"
+        caption="msg://browseCaption"
+        class="com.company.democustomfilter.web.book.BookBrowse"
+        focusComponent="booksTable"
+        lookupComponent="booksTable"
+        messagesPack="com.company.democustomfilter.web.book">
+    <dsContext>
+        <collectionDatasource id="booksDs"
+                              class="com.company.democustomfilter.entity.Book"
+                              view="book-view">
+            <query>
+                <![CDATA[select e from democustomfilter$Book e]]>
+                <filter>
+                    <and>
+                        <c>e.author.firstName = :custom$authorFirstName</c>
+                        <c>e.author.lastName = :custom$authorLastName</c>
+                    </and>
+                </filter>
+            </query>
+        </collectionDatasource>
+    </dsContext>
+    <dialogMode height="600"
+                width="800"/>
+    <layout expand="booksTable"
+            spacing="true">
+        <groupBox orientation="horizontal" caption="Custom filter" spacing="true" width="AUTO">
+            <label value="Author first name" align="MIDDLE_LEFT"/>
+            <lookupField id="authorFirstNameLookup"/>
+            <label value="Author last name" align="MIDDLE_LEFT"/>
+            <lookupField id="authorLastNameLookup"/>
+            <button id="applyCustomFilterBtn" caption="Apply custom filter" invoke="applyCustomFilter"/>
+        </groupBox>
+        <table id="booksTable"
+               width="100%">
+            <actions>
+                <action id="create"/>
+                <action id="edit"/>
+                <action id="remove"/>
+                <action id="refresh"/>
+            </actions>
+            <columns>
+                <column id="title"/>
+                <column id="author"/>
+            </columns>
+            <rows datasource="booksDs"/>
+            <rowsCount/>
+            <buttonsPanel id="buttonsPanel"
+                          alwaysVisible="true">
+                <button id="createBtn"
+                        action="booksTable.create"/>
+                <button id="editBtn"
+                        action="booksTable.edit"/>
+                <button id="removeBtn"
+                        action="booksTable.remove"/>
+                <button id="refreshBtn"
+                        action="booksTable.refresh"/>
+            </buttonsPanel>
+        </table>
+    </layout>
+</window>
